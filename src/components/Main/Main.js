@@ -35,7 +35,7 @@ class Main extends Component {
           </thead>
           <tbody id="productList">
             { this.props.products.map((product, key) => {
-              return(!product.purchased && product.city==this.state.value
+              return(!product.purchased && product.approved && product.city==this.state.value
                       ?
                 <tr key={key}>
                   <th scope="row">{product.id.toString()}</th>

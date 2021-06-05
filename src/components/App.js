@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState , Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Web3 from 'web3'
- import logo from '../logo.png';
 import './App.css';
 import Marketplace from '../abis/Marketplace.json'
-import Navbar from './Navbar'
-import Main from './Main'
-import Farmer from './Farmer'
+import Navbar from './Navbar/Navbar'
+import QTesting from './QTesting/QTesting'
+import Main from './Main/Main'
+import Farmer from './Farmer/Farmer'
+import Register from './Register/Register'
+import Login from './Login/Login';
+import QtRegister from './QtRegister/QtRegister'
 
 class App extends Component {
-
   async componentWillMount() {
     await this.loadWeb3()
     await this.loadBlockchainData()
@@ -39,12 +41,30 @@ class App extends Component {
       const marketplace = new web3.eth.Contract(Marketplace.abi, networkData.address)
       this.setState({ marketplace })
       const productCount = await marketplace.methods.productCount().call()
+      const farmerCount = await marketplace.methods.farmerCount().call()
+      const qtCount = await marketplace.methods.qtCount().call()
       this.setState({ productCount })
+      this.setState({ farmerCount })
+      this.setState({ qtCount })
       // Load products
       for (var i = 1; i <= productCount; i++) {
         const product = await marketplace.methods.products(i).call()
         this.setState({
           products: [...this.state.products, product]
+        })
+      }
+      //Load farmers
+      for (var i = 1; i <= farmerCount; i++) {
+        const farmer = await marketplace.methods.farmers(i).call()
+        this.setState({
+          farmers: [...this.state.farmers, farmer]
+        })
+      }
+      //Load qt
+      for (var i = 1; i <= qtCount; i++) {
+        const qtesting = await marketplace.methods.qtestings(i).call()
+        this.setState({
+          qtestings: [...this.state.qtestings, qtesting]
         })
       }
       this.setState({ loading: false})
@@ -58,17 +78,24 @@ class App extends Component {
     this.state = {
       account: '',
       productCount: 0,
+      farmerCount: 0,
+      qtCount: 0,
+      farmers: [],
       products: [],
+      qtestings: [],
       loading: true
     }
 
     this.createProduct = this.createProduct.bind(this)
     this.purchaseProduct = this.purchaseProduct.bind(this)
+    this.farmerRegister = this.farmerRegister.bind(this)
+    this.qtestingRegister = this.qtestingRegister.bind(this)
+    this.qtapproval = this.qtapproval.bind(this)
   }
 
-  createProduct(name, price, city) {
+  createProduct(id, name, price, city) {
     this.setState({ loading: true })
-    this.state.marketplace.methods.createProduct(name, price, city).send({ from: this.state.account })
+    this.state.marketplace.methods.createProduct(id, name, price, city).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
@@ -82,37 +109,100 @@ class App extends Component {
     })
   }
 
+  farmerRegister(name, phone, city){
+    this.setState({loading: true})
+    this.state.marketplace.methods.farmerRegister(name, phone, city).send({from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  qtestingRegister(name, city){
+    this.setState({loading: true})
+    this.state.marketplace.methods.qtestingRegister(name, city).send({from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  qtapproval(id, price){
+    this.setState({ loading: true })
+    this.state.marketplace.methods.qtapproval(id, price).send({ from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
   render() {
     return (
       <div>
         <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row">
-          
-        <Router>
-        <Switch>
-
-        <Route path="/" exact component={() => <main role="main" className="col-lg-12 d-flex">
-              { this.state.loading
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-                : <Main
+            <Router>
+              <Switch>
+                <Route path="/" exact component={() => <main role="main" className="col-lg-12 d-flex">
+                  { this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<Main
                   products={this.state.products}
                   createProduct={this.createProduct}
                   purchaseProduct={this.purchaseProduct} />
-              }
-            </main>} />
+                  }
+                  </main>} />
           
-        <Route path="/Farmer" exact component={() => <main role="farmer" className="col-lg-12 d-flex">
-              { this.state.loading
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-                : <Farmer
-                products={this.state.products}
-                createProduct={this.createProduct}
-                purchaseProduct={this.purchaseProduct} />
-              }
-            </main>} />
-          </Switch>
-          </Router>
+               <Route path="/Farmer" exact component={() => <main role="farmer" className="col-lg-12 d-flex">
+                  { this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<Farmer
+                  products={this.state.products}
+                  createProduct={this.createProduct}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+                  
+                <Route path="/QTesting" exact component={() => <main role="Quality Testing" className="col-lg-12 d-flex">
+                  {this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<QTesting
+                  products={this.state.products}
+                  qtapproval={this.qtapproval}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+
+                <Route path="/Login" exact component={() => <main role="Quality Testing" className="col-lg-12 d-flex">
+                  {this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<Login
+                  products={this.state.products}
+                  createProduct={this.createProduct}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+
+                <Route path="/Register" exact component={() => <main role="Quality Testing" className="col-lg-12 d-flex">
+                  {this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<Register
+                  farmers={this.state.farmers}
+                  farmerRegister={this.farmerRegister}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+
+                <Route path="/QtRegister" exact component={() => <main role="Quality Testing" className="col-lg-12 d-flex">
+                  {this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<QtRegister
+                  qtestings={this.state.qtestings}
+                  qtestingRegister={this.qtestingRegister}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+
+              </Switch>
+            </Router>
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import React, { Component  } from 'react';
 
 
-class Farmer extends Component{
+
+class Register extends Component{
 
   constructor(props) {
     super(props);
@@ -14,30 +15,30 @@ class Farmer extends Component{
     render() {
         return (
           <div id="content">
-            <h1>Add Product</h1>
+            <h1>Register</h1>
             <form onSubmit={(event) => {
               event.preventDefault()
-              const name = this.productName.value
+              const name = this.farmerName.value
               const city = this.state.value
-              const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
-              this.props.createProduct(name, price, city)
+              const phone = this.phoneNumber.value.toString()
+              this.props.farmerRegister(name, phone, city)
             }}>
               <div className="form-group mr-sm-2">
                 <input
-                  id="productName"
+                  id="farmerName"
                   type="text"
-                  ref={(input) => { this.productName = input }}
+                  ref={(input) => { this.farmerName = input }}
                   className="form-control"
-                  placeholder="Product Name"
+                  placeholder="Farmer Name"
                   required />
               </div>
               <div className="form-group mr-sm-2">
                 <input
-                  id="productPrice"
+                  id="phoneNumber"
                   type="text"
-                  ref={(input) => { this.productPrice = input }}
+                  ref={(input) => { this.phoneNumber = input }}
                   className="form-control"
-                  placeholder="Product Price"
+                  placeholder="Phone Number"
                   required />
               </div>
                   <form>
@@ -53,9 +54,34 @@ class Farmer extends Component{
                   <option value="Dandeli" ref={(value) => { this.productCity = value }}>Dandeli</option>
                 </select> */}
                 </form>
-              <button type="submit" className="btn btn-primary">Add Product</button>
+              <button type="submit" className="btn btn-primary">Register</button>
             </form>
             <p>&nbsp;</p>
+
+            <h2>Buy Product</h2>
+		    <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Phone</th>
+              <th scope="col">City</th>
+            </tr>
+          </thead>
+          <tbody id="productList">
+            { this.props.farmers.map((farmer, key) => {
+              return(
+                <tr key={key}>
+                  <th scope="row">{farmer.id.toString()}</th>
+                  <td>{farmer.name}</td>
+                  <td>{farmer.phone.toString()}</td>
+                  <td>{farmer.city}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+
             </div>
         );
     }
@@ -65,4 +91,4 @@ class Farmer extends Component{
 
 }
 
-export default Farmer;
+export default Register;

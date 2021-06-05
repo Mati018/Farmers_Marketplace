@@ -6,18 +6,40 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a
-          className="navbar-brand col-sm-3 col-md-2 mr-0"
+          className="navbar-brand "
           href="/"
-          rel="noopener noreferrer"
         >
           Farmers Dapp
         </a>
         <a
-          className="navbar-brand col-sm-3 col-md-2 mr-0"
+          className="navbar-brand "
           href="/Farmer"
-          rel="noopener noreferrer"
         >
           Farmer
+        </a>
+        <a
+          className="navbar-brand"
+          href="/QTesting"
+        >
+          Quality Testing
+        </a>
+        <a
+          className="navbar-brand "
+          href="/Login"
+        >
+          Login
+        </a>
+        <a
+          className="navbar-brand"
+          href="/Register"
+        >
+          Register
+        </a>
+        <a
+          className="navbar-brand col-sm-3 col-md-2 mr-0"
+          href="/QtRegister"
+        >
+          QtRegister
         </a>
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
