@@ -9,6 +9,7 @@ import Main from './Main/Main'
 import Farmer from './Farmer/Farmer'
 import Register from './Register/Register'
 import Login from './Login/Login';
+import QtLogin from './QtLogin/QtLogin';
 import QtRegister from './QtRegister/QtRegister'
 
 class App extends Component {
@@ -176,6 +177,19 @@ class App extends Component {
                   ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
                   :<Login
                   products={this.state.products}
+                  farmers={this.state.farmers}
+                  createProduct={this.createProduct}
+                  purchaseProduct={this.purchaseProduct} />
+                  }
+                  </main>} />
+
+                <Route path="/QtLogin" exact component={() => <main role="Quality Testing" className="col-lg-12 d-flex">
+                  {this.state.loading
+                  ?<div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                  :<QtLogin
+                  products={this.state.products}
+                  farmers={this.state.farmers}
+                  qtestings={this.state.qtestings}
                   createProduct={this.createProduct}
                   purchaseProduct={this.purchaseProduct} />
                   }

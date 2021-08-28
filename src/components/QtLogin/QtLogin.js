@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "./Login.css";
+// import "./Login.css";
 import { Redirect } from "react-router-dom";
-import Farmer from "../Farmer/Farmer";
-class Login extends Component {
+class QtLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,18 +27,18 @@ class Login extends Component {
     let user_password = this.state.loginParams.user_password;
    
     // if (user_id === farmer.id.toString() && user_password === farmer.phone.toString()) {
-      localStorage.setItem("token", "T");
-      localStorage.setItem("session", user_id);
-      console.log(localStorage.getItem("token"))
-      console.log(localStorage.getItem("session"))
+      localStorage.setItem("qtoken", "T");
+      localStorage.setItem("qsession", user_id);
+      console.log(localStorage.getItem("qtoken"))
+      console.log(localStorage.getItem("qsession"))
       this.setState({
         islogged: true
       });
     
   };
   render() {
-    if (localStorage.getItem("token")) {
-      return <Redirect to="/Farmer" />;
+    if (localStorage.getItem("qtoken")) {
+      return <Redirect to="/QTesting" />;
     }
     return (
       <div className="container">
@@ -49,16 +48,19 @@ class Login extends Component {
               let user_password = this.state.loginParams.user_password;
               const id = this.FarmerID.value
               const ph = this.PhoneNo.value
-              this.props.farmers.map((farmer, key) => {
-                return(farmer.id==user_id && farmer.phone==user_password
+              {this.props.qtestings.map((qtesting, key) => {
+                return(
+                  <p>Your Register ID is {qtesting.id}</p>
+                  )
+              })}
+              this.props.qtestings.map((qtesting, key) => {
+                return(qtesting.name==user_id && qtesting.city==user_password
                   ?
                   this.login()
                   
                   :
-                  console.log(farmer.id),
-                  console.log(farmer.phone),
-                  console.log(user_id),
-                  console.log(user_password)
+                  console.log(qtesting.id)
+                  
                   )
               })
             }} className="form-signin">
@@ -73,7 +75,7 @@ class Login extends Component {
                   ref={(input) => { this.FarmerID = input }}
                   onChange={this.handleFormChange}
                   className="form-control"
-                  placeholder="Farmer ID"
+                  placeholder="name"
                   required />
               </div>
               <div className="form-group mr-sm-2">
@@ -84,16 +86,16 @@ class Login extends Component {
                   ref={(input) => { this.PhoneNo = input }}
                   onChange={this.handleFormChange}
                   className="form-control"
-                  placeholder="Phone Number"
+                  placeholder="city"
                   required />
               </div>
               <button type="submit" className="btn btn-primary">Login</button>
             </div>
           </div>
         </form>
-        <p>Don't have Account..?<a href="/Register">Click here</a></p>
+        <p>Don't have Account..?<a href="/QtRegister">Click here</a></p>
       </div>
     );
   }
 }
-export default Login;
+export default QtLogin;

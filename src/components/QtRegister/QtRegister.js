@@ -1,4 +1,5 @@
 import React, { Component  } from 'react';
+import { Redirect, Switch, Route, Link } from "react-router-dom";
 
 
 
@@ -13,6 +14,9 @@ class QtRegister extends Component{
     this.setState({value: event.target.value});
 
     render() {
+      if (localStorage.getItem("qtoken")) {
+        return <Redirect to="/QTesting" />;
+      }
         return (
           <div id="content">
             <h1>Qt Register</h1>
@@ -42,8 +46,13 @@ class QtRegister extends Component{
               <button type="submit" className="btn btn-primary">Register</button>
             </form>
             <p>&nbsp;</p>
-
-            <h2>Buy Product</h2>
+            {/* {this.props.qtestings.map((qtesting, key) => {
+                return(
+                  <p>Your Register ID is {qtesting.id}</p>
+                  )
+              })} */}
+ 
+            {/* <h2>Buy Product</h2>
 		    <table className="table">
           <thead>
             <tr>
@@ -63,8 +72,8 @@ class QtRegister extends Component{
               )
             })}
           </tbody>
-        </table>
-
+        </table>  */}
+<p>Login <a href="/QtLogin">Click here</a></p>
             </div>
         );
     }

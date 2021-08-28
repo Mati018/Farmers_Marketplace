@@ -122,7 +122,8 @@ contract Marketplace {
         // Marked as Approved
         _product.approved = true;
         // Set price by Quallity tester
-        _product.price = _qtprice;
+        uint _rate = (_qtprice + _product.price)/2;
+        _product.price = _rate;
         // Update the product
         products[_id] = _product;
         emit ProductApproved(productCount, _product.farmerID, _product.name, _product.city, _product.price, _product.owner, false, true);

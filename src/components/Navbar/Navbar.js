@@ -11,7 +11,7 @@ class Navbar extends Component {
         >
           Farmers Dapp
         </a>
-        <a
+        {/* <a
           className="navbar-brand "
           href="/Farmer"
         >
@@ -22,14 +22,14 @@ class Navbar extends Component {
           href="/QTesting"
         >
           Quality Testing
-        </a>
+        </a> */}
         <a
           className="navbar-brand "
           href="/Login"
         >
-          Login
+          Farmer Portal
         </a>
-        <a
+        {/* <a
           className="navbar-brand"
           href="/Register"
         >
@@ -40,6 +40,12 @@ class Navbar extends Component {
           href="/QtRegister"
         >
           QtRegister
+        </a> */}
+        <a
+          className="navbar-brand "
+          href="/QtLogin"
+        >
+          Quality Testing Portal
         </a>
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">

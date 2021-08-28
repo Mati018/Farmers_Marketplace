@@ -71,8 +71,8 @@ class Main extends Component {
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Price</th>
-              <th scope="col">Currebt Owner</th>
-              <th scope="col">Previous Owner</th>
+              <th scope="col">Current Owner</th>
+              {/* <th scope="col">Previous Owner</th> */}
               <th scope="col">City</th>
               <th scope="col"></th>
             </tr>
@@ -86,7 +86,7 @@ class Main extends Component {
                   <th scope="row">{product.id.toString()}</th>
                   <td>{product.name}</td>
                   <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
-                  <td>{product.owner}</td>
+                  {/* <td>{product.owner}</td> */}
                   <td>{product.owner}</td>
                   <td>{product.city}</td>
                   <td>

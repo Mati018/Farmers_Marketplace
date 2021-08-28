@@ -1,4 +1,5 @@
 import React, { Component  } from 'react';
+import { Redirect, Switch, Route, Link } from "react-router-dom";
 
 
 
@@ -13,6 +14,9 @@ class Register extends Component{
     this.setState({value: event.target.value});
 
     render() {
+      if (localStorage.getItem("token")) {
+        return <Redirect to="/Farmer" />;
+      }
         return (
           <div id="content">
             <h1>Register</h1>
@@ -58,7 +62,7 @@ class Register extends Component{
             </form>
             <p>&nbsp;</p>
 
-            <h2>Buy Product</h2>
+            {/* <h2>Buy Product</h2>
 		    <table className="table">
           <thead>
             <tr>
@@ -80,8 +84,8 @@ class Register extends Component{
               )
             })}
           </tbody>
-        </table>
-
+        </table> */}
+<p>Login  <a href="/Login">Click here</a></p>
             </div>
         );
     }

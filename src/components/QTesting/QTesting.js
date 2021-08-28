@@ -1,19 +1,38 @@
 import React, { Component  } from 'react';
-
+import { Redirect, Switch, Route, Link } from "react-router-dom";
 
 class QTesting extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {value: 'Dharwad'};
+    this.state = {value: 'Dharwad',
+      islogout: false
+    };
   }
 
   handleChange = (event) =>
     this.setState({value: event.target.value});
 
+    signOut = () => {
+      localStorage.removeItem("qtoken");
+      localStorage.removeItem("qsession");
+      this.setState({
+        islogout: true
+      });
+    };
+
     render() {
+      if (!localStorage.getItem("qtoken")) {
+        return <Redirect to="/QtLogin" />;
+      }
+      if (this.state.islogout) {
+        return <Redirect to="/QtLogin" />;
+      }
       return (
       <div id="content">
+        <button onClick={this.signOut} href="#">
+              Sign Out
+            </button>
       <form onSubmit={(event) => {
         event.preventDefault()
         const id = this.productID.value
@@ -45,7 +64,7 @@ class QTesting extends Component{
 	  	    <option value="Haliyal">Haliyal</option>
   	  	  <option value="Dandeli">Dandeli</option>
 	    	</select>
-        <div className="form-group mr-sm-2">
+        {/* <div className="form-group mr-sm-2">
           <input
             id="productID"
             type="text"
@@ -55,7 +74,7 @@ class QTesting extends Component{
           <a>&nbsp;</a>
           <a>&nbsp;</a>
           <button type="submit" className="btn btn-primary">Search</button>
-        </div>
+        </div> */}
 	    </form>
       <table className="table">
         <thead>
